@@ -1,0 +1,6 @@
+name: VideoEmbed
+version: 1.0.0
+description: A field type for embeding YouTube and Vimeo Videos
+url: https://github.com/jrc9designstudio/statamic-video-embed
+developer: JRC9 Design Studio
+developer_url: https://jrc9.ca
