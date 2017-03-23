@@ -37,6 +37,10 @@ If you want to override settings per video you can use the tag instead. If you s
 ```
 <iframe class="responsive-video" src="{{ video_embed src="{video}" autoplay="true" loop="true" api="true" showinfo="false" controls="false" }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 ```
+### Responsive Videos?
+In short, this is your responsablity as this addon takes the philsophy of Statamic, the html, css and javascript is yours and this addon only caculates the video urls for you.
+
+If you are using Bootstrap you can use the example above. For more information see the [Bootstrap 3 documentation](http://getbootstrap.com/components/#responsive-embed) or [Bootstrap 4 documentation](https://v4-alpha.getbootstrap.com/utilities/responsive-helpers/). If you are working with your own css you can implement this yourself. [CSS Tricks has a good guide](https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php) if you need help getting started.
 
 ### Version Log
 - 1.2.0 Added Settings
