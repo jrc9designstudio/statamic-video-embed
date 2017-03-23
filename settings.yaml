@@ -1,0 +1,11 @@
+fields:
+  autoplay:
+    type: toggle
+  loop:
+    type: toggle
+  api:
+    type: toggle
+  showinfo:
+    type: toggle
+  controls:
+    type: toggle

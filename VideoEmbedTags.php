@@ -2,25 +2,23 @@
 
 namespace Statamic\Addons\VideoEmbed;
 
-use Statamic\Extend\Modifier;
+use Statamic\Extend\Tags;
 
-class VideoEmbedModifier extends Modifier
+class VideoEmbedTags extends Tags
 {
     /**
-     * Modify a value
+     * The {{ video_embed }} tag
      *
-     * @param mixed  $value    The value to be modified
-     * @param array  $params   Any parameters used in the modifier
-     * @param array  $context  Contextual values
-     * @return mixed
+     * @return string|array
      */
-    public function index($value, $params, $context)
+    public function index()
     {
-        $autoplay = $this->getConfig('autoplay', false) ? 'true' : 'false';
-        $loop = $this->getConfig('loop', false) ? 'true' : 'false';
-        $api = $this->getConfig('api', false) ? 'true' : 'false';
-        $showinfo = $this->getConfig('showinfo', true) ? 'true' : 'false';
-        $controls = $this->getConfig('controls', true) ? 'true' : 'false';
+        $value = $this->getParam('src');
+        $autoplay = $this->getParam('autoplay', $this->getConfig('autoplay', false) ? 'true' : 'false');
+        $loop = $this->getParam('loop', $this->getConfig('loop', false) ? 'true' : 'false');
+        $api = $this->getParam('api', $this->getConfig('api', false) ? 'true' : 'false');
+        $showinfo = $this->getParam('showinfo', $this->getConfig('showinfo', true) ? 'true' : 'false');
+        $controls = $this->getParam('controls', $this->getConfig('controls', true) ? 'true' : 'false');
       
         if (strpos($value, 'youtube') !== false || strpos($value, 'youtu.be') !== false)
         {
