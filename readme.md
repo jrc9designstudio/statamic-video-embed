@@ -35,8 +35,35 @@ controls: true
 ### Per Video Settings
 If you want to override settings per video you can use the tag instead. If you skip a parameter it will fallback to the default from the settings file.
 ```
-<iframe class="responsive-video" src="{{ video_embed src="{video}" autoplay="true" loop="true" api="true" showinfo="false" controls="false" }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<iframe src="{{ video_embed src="{video}" autoplay="true" loop="true" api="true" showinfo="false" controls="false" }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 ```
+
+### Give the Editor Control over the Embed
+If you want to give the editor control over the embed just add some toggle fields to your fieldset like so:
+```
+fields:
+  video:
+    type: video_embed
+    display: Video
+    instructions: Enter the url of a Vimeo or YouTube Video.
+  autoplay:
+    type: toggle
+    width: 25
+  loop:
+    type: toggle
+    width: 25
+  showinfo:
+    type: toggle
+    width: 25
+  controls:
+    type: toggle
+    width: 25
+```
+and then use them in your template ...
+```
+<iframe src="{{ video_embed src="{video}" autoplay="{autoplay}" loop="{loop}" api="true" showinfo="{showinfo}" controls="{controls}" }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+```
+
 ### Responsive Videos?
 In short, this is your responsablity as this addon takes the philsophy of Statamic, the html, css and javascript is yours and this addon only caculates the video urls for you.
 
