@@ -22,7 +22,8 @@ or if you use bootstrap:
 </div>
 ```
 
-### Setting
+### Settings
+- Go go the control panel > Addons > Settings or modify the settings file `site/settings/addons/video_embed.yaml`
 ```
 autoplay: false
 loop: false
