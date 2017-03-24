@@ -13,31 +13,27 @@ class VideoEmbedTags extends Tags
         $this->videoembed = new VideoEmbed;
     }
 
-    /**
-     * The {{ video_embed }} tag
-     *
-     * @return string|array
-     */
     public function index()
     {
         $value = $this->getParam('src');
-        $autoplay = $this->getParam('autoplay', $this->getConfig('autoplay', false) ? 'true' : 'false');
-        $loop = $this->getParam('loop', $this->getConfig('loop', false) ? 'true' : 'false');
-        $api = $this->getParam('api', $this->getConfig('api', false) ? 'true' : 'false');
-        $showinfo = $this->getParam('showinfo', $this->getConfig('showinfo', true) ? 'true' : 'false');
-        $controls = $this->getParam('controls', $this->getConfig('controls', true) ? 'true' : 'false');
+        $autoplay = $this->getParam('autoplay', null);
+        $loop = $this->getParam('loop', null);
+        $api = $this->getParam('api', null);
+        $showinfo = $this->getParam('showinfo', null);
+        $controls = $this->getParam('controls', null);
       
         return $this->videoembed->getVideoSrc($value, $autoplay, $loop, $api, $showinfo, $controls);
     }
 
-    /**
-     * The {{ video_link }} tag
-     *
-     * @return string|array
-     */
-    public function videoLink()
+    public function link()
     {
         $value = $this->getParam('src');
         return $this->videoembed->getVideoLink($value);
+    }
+    
+    public function videoId()
+    {
+        $value = $this->getParam('src');
+        return $this->videoembed->getVideoId($value);
     }
 }

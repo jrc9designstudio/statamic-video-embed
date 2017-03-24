@@ -21,7 +21,7 @@ class VideoEmbed extends Addon
       return ($this->isYouTube($value) || $this->isVimeo($value)) != false;
     }
 
-    public function getYouTubeVideoId($value)
+    protected function getYouTubeVideoId($value)
     {
         if (strpos($value, '?v=') !== false)
         {
@@ -31,13 +31,33 @@ class VideoEmbed extends Addon
         return substr($value, strrpos($value, '/') + 1);
     }
 
-    public function getVimeoId($value)
+    protected function getVimeoId($value)
     {
         return substr($value, strrpos($value, '/') + 1);
     }
 
+    public function getVideoId($value)
+    {
+        if ($this->isYouTube($value))
+        {
+            return $this->getYouTubeVideoId($value);
+        }
+        elseif ($this->isVimeo($value))
+        {
+            return $this->getVimeoId($value);
+        }
+
+        return '';
+    }
+
     public function getVideoSrc($value, $autoplay, $loop, $api, $showinfo, $controls)
     {
+        if (is_null($autoplay)) $autoplay = $this->getConfig('autoplay', false) ? 'true' : 'false';
+        if (is_null($loop)) $loop = $this->getConfig('loop', false) ? 'true' : 'false';
+        if (is_null($api)) $api = $this->getConfig('api', false) ? 'true' : 'false';
+        if (is_null($showinfo)) $showinfo = $this->getConfig('showinfo', true) ? 'true' : 'false';
+        if (is_null($controls)) $controls = $this->getConfig('controls', true) ? 'true' : 'false';
+        
         if ($this->isYouTube($value))
         {
             return 'https://www.youtube.com/embed/' . $this->getYouTubeVideoId($value) . '?autoplay=' . $autoplay . '&loop=' . $loop . '&enablejsapi=' . $api . '&showinfo=' . $showinfo . '&controls=' . $controls;
