@@ -6,17 +6,17 @@ use Statamic\Extend\Addon;
 
 class VideoEmbed extends Addon
 {
-	public function isYouTube($value)
-	{
-		return strpos($value, 'youtube') !== false || strpos($value, 'youtu.be') !== false;
-	}
+    protected function isYouTube($value)
+    {
+        return strpos($value, 'youtube') !== false || strpos($value, 'youtu.be') !== false;
+    }
 
-	public function isVimeo($value)
-	{
-		return strpos($value, 'vimeo') !== false;
-	}
+    protected function isVimeo($value)
+    {
+        return strpos($value, 'vimeo') !== false;
+    }
 
-    public function getYouTubeVideoId($value)
+    protected function getYouTubeVideoId($value)
     {
         if (strpos($value, '?v=') !== false)
         {
@@ -26,9 +26,9 @@ class VideoEmbed extends Addon
         return substr($value, strrpos($value, '/') + 1);
     }
 
-    public function getVimeoId($value)
+    protected function getVimeoId($value)
     {
-    	return substr($value, strrpos($value, '/') + 1);
+        return substr($value, strrpos($value, '/') + 1);
     }
 
     public function getVideoSrc($value, $autoplay, $loop, $api, $showinfo, $controls)
@@ -45,4 +45,17 @@ class VideoEmbed extends Addon
         return '';
     }
 
+    public function getVideoLink($value)
+    {
+        if ($this->isYouTube($value))
+        {
+            return 'https://www.youtube.com/watch?v=' . $this->getYouTubeVideoId($value);
+        }
+        elseif ($this->isVimeo($value))
+        {
+            return 'https://vimeo.com/' . $this->getVimeoId($value);
+        }
+
+        return '';
+    }
 }

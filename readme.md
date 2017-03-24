@@ -1,6 +1,6 @@
 # Video Embed for Statamic 2
 *Requirement:* Statamic v2.x  
-*Version:* 1.2.1
+*Version:* 1.3.0
 
 ### What is this?
 Add A Video Embed field for YouTube and Vimeo videos to Statamic
@@ -70,6 +70,7 @@ In short, this is your responsablity as this addon takes the philsophy of Statam
 If you are using Bootstrap you can use the example above. For more information see the [Bootstrap 3 documentation](http://getbootstrap.com/components/#responsive-embed) or [Bootstrap 4 documentation](https://v4-alpha.getbootstrap.com/utilities/responsive-helpers/). If you are working with your own css you can implement this yourself. [CSS Tricks has a good guide](https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php) if you need help getting started.
 
 ### Version Log
+- 1.3.0 Add Video Link
 - 1.2.0 Added Settings
 - 1.1.0 Added Video Preview
 - 1.0.0 Initial Release

@@ -12,7 +12,7 @@ class VideoEmbedTags extends Tags
     {
         $this->videoembed = new VideoEmbed;
     }
-    
+
     /**
      * The {{ video_embed }} tag
      *
@@ -28,5 +28,16 @@ class VideoEmbedTags extends Tags
         $controls = $this->getParam('controls', $this->getConfig('controls', true) ? 'true' : 'false');
       
         return $this->videoembed->getVideoSrc($value, $autoplay, $loop, $api, $showinfo, $controls);
+    }
+
+    /**
+     * The {{ video_link }} tag
+     *
+     * @return string|array
+     */
+    public function videoLink()
+    {
+        $value = $this->getParam('src');
+        return $this->videoembed->getVideoLink($value);
     }
 }
