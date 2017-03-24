@@ -24,6 +24,7 @@ class VideoEmbedFieldtype extends Fieldtype
      */
     public function preProcess($data)
     {
+        $data['key'] = $this->getConfig('key', '');
         return $data;
     }
 
@@ -35,6 +36,7 @@ class VideoEmbedFieldtype extends Fieldtype
      */
     public function process($data)
     {
+        unset($data['key']);
         return $data;
     }
 }

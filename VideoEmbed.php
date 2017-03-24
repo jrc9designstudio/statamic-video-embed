@@ -6,18 +6,6 @@ use Statamic\Extend\Addon;
 
 class VideoEmbed extends Addon
 {
-    private $youtube_video_sizes = array('xl' => 'maxresdefault',
-                                         'lg' => 'sddefault',
-                                         'md' => 'hqdefault',
-                                         'sm' => 'mqdefault',
-                                         'xs' => 'default');
-                                         
-    private $vimeo_video_sizes = array('xl' => '1920x1080',
-                                       'lg' => '640x480',
-                                       'md' => '480x360',
-                                       'sm' => '320x180',
-                                       'xs' => '120x90');
-    
     public function isYouTube($value)
     {
         return strpos($value, 'youtube') !== false || strpos($value, 'youtu.be') !== false;
@@ -91,22 +79,6 @@ class VideoEmbed extends Addon
         elseif ($this->isVimeo($value))
         {
             return 'https://vimeo.com/' . $this->getVimeoId($value);
-        }
-
-        return '';
-    }
-    
-    public function getVideoThumbnail($value, $thumb_size)
-    {
-        if (is_null($thumb_size)) $thumb_size = $this->getConfig('thumbnail_size', 'md');
-        
-        if ($this->isYouTube($value))
-        {
-            return 'https://i1.ytimg.com/vi/' . $this->getYouTubeVideoId($value) . '/' . $this->youtube_video_sizes[$thumb_size] . '.jpg';
-        }
-        elseif ($this->isVimeo($value))
-        {
-            return 'https://i.vimeocdn.com/video/' . $this->getVimeoId($value) . '_' . $this->vimeo_video_sizes[$thumb_size] . '.jpg';
         }
 
         return '';
