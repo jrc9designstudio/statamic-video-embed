@@ -25,6 +25,9 @@ class VideoEmbedModifier extends Modifier
             case 'video_id':
               return $this->videoembed->getVideoId($value);
               break;
+            case 'thumbnail':
+              return $this->videoembed->getVideoThumbnail($value, null);
+              break;
             case 'is_valid':
               return $this->videoembed->isValid($value);
               break;

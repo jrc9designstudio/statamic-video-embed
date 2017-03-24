@@ -36,4 +36,11 @@ class VideoEmbedTags extends Tags
         $value = $this->getParam('src');
         return $this->videoembed->getVideoId($value);
     }
+    
+    public function thumbnail()
+    {
+        $value = $this->getParam('src');
+        $thumb_size = $this->getParam('size', null);
+        return $this->videoembed->getVideoThumbnail($value, $thumb_size);
+    }
 }

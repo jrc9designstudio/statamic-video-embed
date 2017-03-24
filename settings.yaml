@@ -9,3 +9,11 @@ fields:
     type: toggle
   controls:
     type: toggle
+  thumbnail_size:
+    type: select
+    options:
+      xl: Extra Large (1920x1080)
+      lg: Large (640x480)
+      md: Medium (480x360)
+      sm: Small (320x180)
+      xs: Extra Small (120x90)

@@ -9,5 +9,6 @@ return [
     'showinfo' => 'Show Info',
     'showinfo_instruct' => 'Show information about the video.',
     'controls' => 'Controls',
-    'controls_instruct' => 'Show video controls (only supported by YouTube).'
+    'controls_instruct' => 'Show video controls (only supported by YouTube).',
+    'thumbnail_size' => 'Default Thumbnail Size'
 ];
