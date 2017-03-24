@@ -13,35 +13,33 @@ class VideoEmbedModifier extends Modifier
         $this->videoembed = new VideoEmbed;
     }
 
-    /**
-     * Modify a value
-     *
-     * @param mixed  $value    The value to be modified
-     * @param array  $params   Any parameters used in the modifier
-     * @param array  $context  Contextual values
-     * @return mixed
-     */
     public function index($value, $params, $context)
     {
+        if (count($params) > 0)
+        {
+          switch ($params[0])
+          {
+            case 'video_link':
+              return $this->videoembed->getVideoLink($value);
+              break;
+            case 'is_valid':
+              return $this->videoembed->isValid($value);
+              break;
+            case 'is_youtube':
+              return $this->videoembed->isYouTube($value);
+              break;
+            case 'is_vimeo':
+              return $this->videoembed->isVimeo($value);
+              break;  
+          }
+        }
+        
         $autoplay = $this->getConfig('autoplay', false) ? 'true' : 'false';
         $loop = $this->getConfig('loop', false) ? 'true' : 'false';
         $api = $this->getConfig('api', false) ? 'true' : 'false';
         $showinfo = $this->getConfig('showinfo', true) ? 'true' : 'false';
         $controls = $this->getConfig('controls', true) ? 'true' : 'false';
       
-        return $this->videoembed->getVideoSrc($value, $autoplay, $loop, $api, $showinfo, $controls);
-    }
-
-    /**
-     * Modify a value
-     *
-     * @param mixed  $value    The value to be modified
-     * @param array  $params   Any parameters used in the modifier
-     * @param array  $context  Contextual values
-     * @return mixed
-     */
-    public function video_link($value, $params, $context)
-    {
-        return $this->videoembed->getVideoLink($value);
+        return $this->videoembed->getVideoSrc($value, $autoplay, $loop, $api, $showinfo, $controls); 
     }
 }

@@ -6,17 +6,22 @@ use Statamic\Extend\Addon;
 
 class VideoEmbed extends Addon
 {
-    protected function isYouTube($value)
+    public function isYouTube($value)
     {
         return strpos($value, 'youtube') !== false || strpos($value, 'youtu.be') !== false;
     }
 
-    protected function isVimeo($value)
+    public function isVimeo($value)
     {
         return strpos($value, 'vimeo') !== false;
     }
 
-    protected function getYouTubeVideoId($value)
+    public function isValid($value)
+    {
+      return ($this->isYouTube($value) || $this->isVimeo($value)) != false;
+    }
+
+    public function getYouTubeVideoId($value)
     {
         if (strpos($value, '?v=') !== false)
         {
@@ -26,7 +31,7 @@ class VideoEmbed extends Addon
         return substr($value, strrpos($value, '/') + 1);
     }
 
-    protected function getVimeoId($value)
+    public function getVimeoId($value)
     {
         return substr($value, strrpos($value, '/') + 1);
     }
