@@ -82,9 +82,9 @@ Vue.component('video_embed-fieldtype', {
                     that.data.duration = null;
                     that.data.height = null;
                     that.data.width = null;
-                    that.data.thumbnail_large = data.items[0].snippet.thumbnails.high;
-                    that.data.thumbnail_medium = data.items[0].snippet.thumbnails.medium;
-                    that.data.thumbnail_small = data.items[0].snippet.thumbnails.default;
+                    that.data.thumbnail_large = data.items[0].snippet.thumbnails.high.url;
+                    that.data.thumbnail_medium = data.items[0].snippet.thumbnails.medium.url;
+                    that.data.thumbnail_small = data.items[0].snippet.thumbnails.default.url;
                 });
             }
         }
