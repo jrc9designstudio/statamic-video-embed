@@ -83,4 +83,43 @@ class VideoEmbed extends Addon
 
         return '';
     }
+
+    public function getAspectRatio($height, $width)
+    {
+        $fraction = $width / $height;
+
+        if ($fraction >= 2.333)
+        {
+            $aspect_ratio = 'cinema';
+        }
+        elseif ($fraction >= 1.777)
+        {
+            $aspect_ratio = 'wide';
+        }
+        elseif ($fraction >= 1.5)
+        {
+            $aspect_ratio = 'clasic';
+        }
+        elseif ($fraction >= 1.333) {
+            $aspect_ratio = 'standard';
+        }
+        elseif ($fraction > 0.75) {
+            $aspect_ratio = 'square';
+        }
+        elseif ($fraction <= 0.428571429) {
+            $aspect_ratio = 'portrait_cinema';
+        }
+        elseif ($fraction <= 0.5625) {
+            $aspect_ratio = 'portrait_wide';
+        }
+        elseif ($fraction <= 0.665) {
+            $aspect_ratio = 'portrait_clasic';
+        } elseif ($fraction <= 0.75) {
+            $aspect_ratio = 'portrait_standard';
+        } else {
+            $aspect_ratio = 'wide';
+        }
+
+        return $aspect_ratio;
+    }
 }

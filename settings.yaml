@@ -9,11 +9,5 @@ fields:
     type: toggle
   controls:
     type: toggle
-  thumbnail_size:
-    type: select
-    options:
-      large: Large
-      medium: Medium
-      small: Small
   key:
     type: text

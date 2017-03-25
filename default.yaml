@@ -3,5 +3,4 @@ loop: false
 api: false
 showinfo: true
 controls: true
-thumbnail_size: large
 key: ''

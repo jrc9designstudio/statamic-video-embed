@@ -36,4 +36,12 @@ class VideoEmbedTags extends Tags
         $value = $this->getParam('src');
         return $this->videoembed->getVideoId($value);
     }
+
+    public function aspectRatio()
+    {
+        $height = $this->getParam('height');
+        $width = $this->getParam('width');
+
+        return $this->videoembed->getAspectRatio($height, $width);
+    }
 }
