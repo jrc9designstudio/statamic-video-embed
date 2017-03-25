@@ -1,7 +1,4 @@
 Vue.component('video_embed-fieldtype', {
-
-    template: '<div>VideoEmbed</div>',
-
     props: ['data', 'config', 'name'],
 
     data: function() {
@@ -41,7 +38,7 @@ Vue.component('video_embed-fieldtype', {
             return this.data.author_name;
         },
         description: function() {
-            return this.data.description;
+            return this.data.description.replace(/<\/?[^>]+(>|$)/g, "");
         }
     },
 
@@ -49,27 +46,26 @@ Vue.component('video_embed-fieldtype', {
         getData: function () {
             var that = this;
             
-            if (this.data.url.search('vimeo') !== -1) {
+            if (this.isVimeo) {
                 $.ajax({
                     url: 'http://vimeo.com/api/v2/video/' + this.data.url.split('/').pop() + '.json',
                     crossDomain: true
                 }).done(function(data) {
-                    data = data[0];
-                    that.data.title = data.title;
-                    that.data.description = data.description;
-                    that.data.author_name = data.user_name;
-                    that.data.author_url = data.user_url;
-                    that.data.duration = data.duration;
-                    that.data.height = data.height;
-                    that.data.width = data.width;
-                    that.data.thumbnail_large = data.thumbnail_large;
-                    that.data.thumbnail_medium = data.thumbnail_medium;
-                    that.data.thumbnail_small = data.thumbnail_small;
+                    that.data.title = data[0].title;
+                    that.data.description = data[0].description;
+                    that.data.author_name = data[0].user_name;
+                    that.data.author_url = data[0].user_url;
+                    that.data.duration = data[0].duration;
+                    that.data.height = data[0].height;
+                    that.data.width = data[0].width;
+                    that.data.thumbnail_large = data[0].thumbnail_large;
+                    that.data.thumbnail_medium = data[0].thumbnail_medium;
+                    that.data.thumbnail_small = data[0].thumbnail_small;
                 });
-            } else if ((this.data.url.search('youtube') || this.data.url.search('youtu.be')) !== -1) {
+            } else if (this.isYouTube) {
                 var video_id = '';
                 
-                if(this.data.url.search('v=') !== -1) {
+                if(this.isYouTube) {
                     video_id = this.data.url.split('v=').pop();
                 } else {
                     video_id = this.data.url.split('/').pop();
@@ -79,7 +75,6 @@ Vue.component('video_embed-fieldtype', {
                     url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + video_id + '&key=' + this.data.key,
                     crossDomain: true
                 }).done(function(data) {
-                    console.log(data);
                     that.data.title = data.items[0].snippet.title;
                     that.data.description = data.items[0].snippet.description;
                     that.data.author_name = data.items[0].snippet.channelTitle;
@@ -96,7 +91,6 @@ Vue.component('video_embed-fieldtype', {
     },
 
     ready: function() {
-        this.data = this.data || { url: '' };
         this.data.url = this.data.url ? this.data.url : '';
         this.data.title = this.data ? this.data.title : '';
         this.data.description = this.data ? this.data.description : '';
@@ -112,16 +106,18 @@ Vue.component('video_embed-fieldtype', {
     
     template: '' +
       '<div class="form-group">' +
-        '<div v-if="isValid" class="row">' +
-          '<div class="col-xs-12 col-sm-4 col-md-5 col-lg-6">' +
-            '<div class="embed-responsive embed-responsive-16by9">' +
-              '<iframe class="embed-responsive-item" :src="src" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' +
+        '<div v-if="isValid" class="media">' +
+          '<div class="media-left">' +
+            '<div class="video-preview" style="padding-right: 10px; width: 150px; width: 25vw;">' +
+                '<div class="embed-responsive embed-responsive-16by9">' +
+                      '<iframe class="embed-responsive-item" :src="src" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' +
+                '</div>' +
             '</div>' +
           '</div>' +
-          '<div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">' +
-            '<h2>{{ title }}</h2>' +
+          '<div class="media-body">' +
+            '<h2 class="media-heading">{{ title }}</h2>' +
             '<h3>{{ author_name }}</h3>' +
-            '<p>{{ description | strip_tags }}</p>' +
+            '<p>{{ description }}</p>' +
           '</div>' +
         '</div>' +
         '<div v-else>' +
@@ -130,5 +126,4 @@ Vue.component('video_embed-fieldtype', {
       '</div>' +
       '<input type="text" class="form-control" v-model="data.url" @keyup="getData" />' +
     ''
-
 });

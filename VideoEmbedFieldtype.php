@@ -13,7 +13,12 @@ class VideoEmbedFieldtype extends Fieldtype
      */
     public function blank()
     {
-        return null;
+        return [
+            'url' => '',
+            'title' => '',
+            'author_name' => '',
+            'description' => ''
+        ];
     }
 
     /**
