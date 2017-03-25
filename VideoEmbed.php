@@ -86,6 +86,8 @@ class VideoEmbed extends Addon
 
     public function getAspectRatio($height, $width)
     {
+        $height = (int)$height;
+        $width = (int)$width;
         $fraction = $width / $height;
 
         if ($fraction >= 2.333)
