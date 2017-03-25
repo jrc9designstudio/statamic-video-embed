@@ -21,7 +21,7 @@ class VideoEmbed extends Addon
       return ($this->isYouTube($value) || $this->isVimeo($value)) != false;
     }
 
-    protected function getYouTubeVideoId($value)
+    public function getYouTubeVideoId($value)
     {
         if (strpos($value, '?v=') !== false)
         {
@@ -31,7 +31,7 @@ class VideoEmbed extends Addon
         return substr($value, strrpos($value, '/') + 1);
     }
 
-    protected function getVimeoId($value)
+    public function getVimeoId($value)
     {
         return substr($value, strrpos($value, '/') + 1);
     }
@@ -57,7 +57,7 @@ class VideoEmbed extends Addon
         if (is_null($api)) $api = $this->getConfig('api', false) ? 'true' : 'false';
         if (is_null($showinfo)) $showinfo = $this->getConfig('showinfo', true) ? 'true' : 'false';
         if (is_null($controls)) $controls = $this->getConfig('controls', true) ? 'true' : 'false';
-        
+
         if ($this->isYouTube($value))
         {
             return 'https://www.youtube.com/embed/' . $this->getYouTubeVideoId($value) . '?autoplay=' . $autoplay . '&loop=' . $loop . '&enablejsapi=' . $api . '&showinfo=' . $showinfo . '&controls=' . $controls;

@@ -106,23 +106,23 @@ Vue.component('video_embed-fieldtype', {
     
     template: '' +
       '<div class="form-group">' +
-        '<div v-if="isValid" class="media">' +
-          '<div class="media-left">' +
-            '<div class="video-preview" style="padding-right: 10px; width: 150px; width: 25vw;">' +
-                '<div class="embed-responsive embed-responsive-16by9">' +
-                      '<iframe class="embed-responsive-item" :src="src" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' +
+            '<div v-if="isValid" class="media">' +
+                '<div class="media-left">' +
+                    '<div class="video-preview" style="padding-right: 10px; width: 150px; width: 25vw;">' +
+                        '<div class="embed-responsive embed-responsive-16by9">' +
+                            '<iframe class="embed-responsive-item" :src="src" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="media-body">' +
+                    '<h2 class="media-heading">{{ title }}</h2>' +
+                    '<h3>{{ author_name }}</h3>' +
+                    '<p>{{ description }}</p>' +
                 '</div>' +
             '</div>' +
-          '</div>' +
-          '<div class="media-body">' +
-            '<h2 class="media-heading">{{ title }}</h2>' +
-            '<h3>{{ author_name }}</h3>' +
-            '<p>{{ description }}</p>' +
-          '</div>' +
-        '</div>' +
-        '<div v-else>' +
-          '<p class="alert alert-warning" role="alert">Video URL is not recognized.</p>' +
-        '</div>' +
+            '<div v-else>' +
+                '<p class="alert alert-warning" role="alert">Video URL is not recognized.</p>' +
+            '</div>' +
       '</div>' +
       '<input type="text" class="form-control" v-model="data.url" @keyup="getData" />' +
     ''
