@@ -24,7 +24,8 @@ class VideoEmbedFieldtype extends Fieldtype
             'url' => '',
             'title' => '',
             'author_name' => '',
-            'description' => ''
+            'description' => '',
+            'key' => $data['key'] = $this->getConfig('key', '')
         ];
     }
 
