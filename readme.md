@@ -3,7 +3,7 @@
 *Version:* 2.0.1
 
 ### What is this?
-Add A Video Embed field for YouTube and Vimeo videos to Statamic
+Add YouTube and Vimeo videos to Statamic with a Video Embed field.
 
 ### Installation
 - Rename the folder `VideoEmbed` and copy it to your `site/addons` folder
@@ -23,7 +23,7 @@ key: ''
 ### Data Storage
 - Using the Vimeo and YouTube APIs we get and store meta information about the video for you. This is a breaking change from v1 where we only stored the url of the video. While storing this data means we will not get updates made on Vimeo or YouTube until the entry or page is edited again with the Control Panel, it does mean that there is no remote connection needed to get the meta information about videos.
 - Unfortunately at this time the YouTube API does not return the duration of the video.
-- The data will be stored something like this example:
+- The data will be stored similar to this example:
 ```
 video:
   url: https://vimeo.com/16881273
@@ -90,11 +90,11 @@ and then use them in your template ...
 ```
 
 ### Responsive Videos?
-In short, this is your responsablity as this addon takes the philsophy of Statamic, the html, css and javascript is yours and this addon only caculates the video urls for you.
+In short, this addon takes the philsophy of Statamic; the html, css and javascript is yours, and this addon only calculates the video urls for you. This will be your responsibility to make the videos responsive.
 
-If you are using Bootstrap you can use the example above. For more information see the [Bootstrap 3 documentation](http://getbootstrap.com/components/#responsive-embed) or [Bootstrap 4 documentation](https://v4-alpha.getbootstrap.com/utilities/responsive-helpers/). If you are working with your own css you can implement this yourself. [CSS Tricks has a good guide](https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php) if you need help getting started.
+If you are using Bootstrap you can use the example above. For more information see [Bootstrap 3 documentation](http://getbootstrap.com/components/#responsive-embed) or [Bootstrap 4 documentation](https://v4-alpha.getbootstrap.com/utilities/responsive-helpers/). If you are working with your own css, you can implement this yourself. [CSS Tricks has a good guide](https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php) if you need help getting started.
 
-If you really want a simple tag that does it all for you you can create your own using the API, or use the [Bootstrap Video Embed addon](https://github.com/jrc9designstudio/statamic-bootstrap-video-embed) in conjunction with this addon.
+If you really want a simple tag that does it all for you, you can create your own tag using the API, or use [Bootstrap Video Embed addon](https://github.com/jrc9designstudio/statamic-bootstrap-video-embed) in conjunction with this addon.
 
 ### Extra Modifiers
 - Returns a link to the video on the orginal platform: `{{ video:url | video_embed:link }}`
