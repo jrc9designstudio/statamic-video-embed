@@ -65,7 +65,7 @@ Vue.component('video_embed-fieldtype', {
             } else if (this.isYouTube) {
                 var video_id = '';
                 
-                if(this.isYouTube) {
+                if(this.isYouTubeParam) {
                     video_id = this.data.url.split('v=').pop();
                 } else {
                     video_id = this.data.url.split('/').pop();
