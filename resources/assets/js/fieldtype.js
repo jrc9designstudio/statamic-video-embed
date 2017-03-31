@@ -105,16 +105,17 @@ Vue.component('video_embed-fieldtype', {
     },
     
     template: '' +
-      '<div class="form-group">' +
-            '<div v-if="isValid" class="media">' +
-                '<div class="media-left">' +
-                    '<div class="video-preview" style="padding-right: 10px; width: 150px; width: 25vw;">' +
-                        '<div class="embed-responsive embed-responsive-16by9">' +
-                            '<iframe class="embed-responsive-item" :src="src" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' +
-                        '</div>' +
+      '<style>' +
+        'body.sneak-peeking .video-preview { display: none; }' +
+      '</style>' +
+      '<div class="video-preview form-group">' +
+            '<div v-if="isValid" class="row">' +
+                '<div class="col-xs-12 col-sm-4 col-md-5 col-lg-6">' +
+                    '<div class="embed-responsive embed-responsive-16by9">' +
+                        '<iframe class="embed-responsive-item" :src="src" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>' +
                     '</div>' +
                 '</div>' +
-                '<div class="media-body">' +
+                '<div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">' +
                     '<h2 class="media-heading">{{ title }}</h2>' +
                     '<h3>{{ author_name }}</h3>' +
                     '<p>{{ description }}</p>' +

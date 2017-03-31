@@ -1,6 +1,6 @@
 # Video Embed for Statamic 2
 *Requirement:* Statamic v2.x, curl  
-*Version:* 2.0.1
+*Version:* 2.0.2
 
 ### What is this?
 Add YouTube and Vimeo videos to Statamic with a Video Embed field.
