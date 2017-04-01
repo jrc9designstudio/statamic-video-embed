@@ -11,5 +11,7 @@ return [
     'controls' => 'Controls',
     'controls_instruct' => 'Show video controls (only supported by YouTube).',
     'key' => 'Google API Key for YouTube API',
-    'key_instruct' => 'You need to get an API key for the [YouTube API](https://developers.google.com/youtube/v3/getting-started) from google.'
+    'key_instruct' => 'You need to get an API key for the [YouTube API](https://developers.google.com/youtube/v3/getting-started) from google.',
+    'token' => 'Vimeo API app personal access token for Vimeo API',
+    'token_instruct' => 'You need to setup a Vimeo app and get a personal access token to [authenticate ](https://developer.vimeo.com/api/authentication) with the Vimeo API.'
 ];

@@ -4,3 +4,4 @@ api: false
 showinfo: true
 controls: true
 key: ''
+token: ''

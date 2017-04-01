@@ -11,3 +11,5 @@ fields:
     type: toggle
   key:
     type: text
+  token:
+    type: text

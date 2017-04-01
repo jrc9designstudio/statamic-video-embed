@@ -11,6 +11,7 @@ Add YouTube and Vimeo videos to Statamic with a Video Embed field.
 - Rename the folder `VideoEmbed` and copy it to your `site/addons` folder
 - Add a VideoEmbed field to one of your fieldsets
 - Add your [YouTube API](https://developers.google.com/youtube/v3/getting-started) key to the addon settings. 
+- Add your [Vimeo API](https://developer.vimeo.com/api/authentication) app token to the addon settings.
 
 ### Settings
 - Go go the control panel > Addons > Settings or modify the settings file `site/settings/addons/video_embed.yaml`
@@ -21,6 +22,7 @@ api: false
 showinfo: true
 controls: true
 key: ''
+token: ''
 ```
 ### Data Storage
 - Using the Vimeo and YouTube APIs we get and store meta information about the video for you. This is a breaking change from v1 where we only stored the url of the video. While storing this data means we will not get updates made on Vimeo or YouTube until the entry or page is edited again with the Control Panel, it does mean that there is no remote connection needed to get the meta information about videos.
@@ -36,9 +38,9 @@ video:
   duration: 462
   height: 256
   width: 480
-  thumbnail_large: https://i.vimeocdn.com/video/104050736_640.jpg
-  thumbnail_medium: https://i.vimeocdn.com/video/104050736_200x150.jpg
-  thumbnail_small: https://i.vimeocdn.com/video/104050736_100x75.jpg
+  thumbnail_large: https://i.vimeocdn.com/video/104050736_1280x720.jpg?r=pad
+  thumbnail_medium: https://i.vimeocdn.com/video/104050736_960x540.jpg?r=pad
+  thumbnail_small: https://i.vimeocdn.com/video/104050736_640x360.jpg?r=pad
 ```
 
 ### Modifier

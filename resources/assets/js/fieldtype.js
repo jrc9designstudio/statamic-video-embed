@@ -28,7 +28,7 @@ Vue.component('video_embed-fieldtype', {
                     return 'https://www.youtube.com/embed/' + this.data.url.split('/').pop();
                 }
             }
-            
+
             return false;
         },
         title: function() {
@@ -45,22 +45,26 @@ Vue.component('video_embed-fieldtype', {
     methods: {
         getData: function () {
             var that = this;
-            
+
             if (this.isVimeo) {
                 $.ajax({
-                    url: 'http://vimeo.com/api/v2/video/' + this.data.url.split('/').pop() + '.json',
-                    crossDomain: true
+                  type: 'GET',
+                  url: 'https://api.vimeo.com/videos/' + this.data.url.split('/').pop(),
+                  crossDomain: true,
+                  headers: {
+                    'Authorization': 'Bearer ' + this.data.token
+                  }
                 }).done(function(data) {
-                    that.data.title = data[0].title;
-                    that.data.description = data[0].description;
-                    that.data.author_name = data[0].user_name;
-                    that.data.author_url = data[0].user_url;
-                    that.data.duration = data[0].duration;
-                    that.data.height = data[0].height;
-                    that.data.width = data[0].width;
-                    that.data.thumbnail_large = data[0].thumbnail_large;
-                    that.data.thumbnail_medium = data[0].thumbnail_medium;
-                    that.data.thumbnail_small = data[0].thumbnail_small;
+                    that.data.title = data.name;
+                    that.data.description = data.description;
+                    that.data.author_name = data.user.name;
+                    that.data.author_url = data.user.link;
+                    that.data.duration = data.duration;
+                    that.data.height = data.height;
+                    that.data.width = data.width;
+                    that.data.thumbnail_large = data.pictures.sizes[5].link;
+                    that.data.thumbnail_medium = data.pictures.sizes[4].link;
+                    that.data.thumbnail_small = data.pictures.sizes[3].link;
                 });
             } else if (this.isYouTube) {
                 var video_id = '';

@@ -25,7 +25,8 @@ class VideoEmbedFieldtype extends Fieldtype
             'title' => '',
             'author_name' => '',
             'description' => '',
-            'key' => $data['key'] = $this->getConfig('key', '')
+            'key' => $data['key'] = $this->getConfig('key', ''),
+            'token' => $data['token'] = $this->getConfig('token', '')
         ];
     }
 
@@ -39,6 +40,8 @@ class VideoEmbedFieldtype extends Fieldtype
     {
         // Pass the YouTube API key to Vue
         $data['key'] = $this->getConfig('key', '');
+        // Pass the Vimeo API token to Vue
+        $data['token'] = $this->getConfig('token', '');
         return $data;
     }
 
@@ -68,6 +71,9 @@ class VideoEmbedFieldtype extends Fieldtype
                 $data['width'] = $contents['width'];
             }
         }
+
+        // Important! Unset the Vimeo API token so it is not saved with the content
+        unset($data['token']);
 
         return $data;
     }
