@@ -25,7 +25,8 @@ class VideoEmbed extends Addon
     {
         if (strpos($value, '?v=') !== false)
         {
-            return substr($value, strrpos($value, '=') + 1);
+            parse_str(parse_url($value)['query'], $idstr);
+            return $idstr['v'];
         }
         
         return substr($value, strrpos($value, '/') + 1);

@@ -23,7 +23,7 @@ Vue.component('video_embed-fieldtype', {
                 return 'https://player.vimeo.com/video/' + this.data.url.split('/').pop();
             } else if (this.isYouTube) {
                 if(this.isYouTubeParam) {
-                    return 'https://www.youtube.com/embed/' + this.data.url.split('v=').pop();
+                    return 'https://www.youtube.com/embed/' + this.data.url.split('v=').pop().split('&')[0];
                 } else {
                     return 'https://www.youtube.com/embed/' + this.data.url.split('/').pop();
                 }
@@ -66,7 +66,7 @@ Vue.component('video_embed-fieldtype', {
                 var video_id = '';
                 
                 if(this.isYouTubeParam) {
-                    video_id = this.data.url.split('v=').pop();
+                    video_id = this.data.url.split('v=').pop().split('&')[0];
                 } else {
                     video_id = this.data.url.split('/').pop();
                 }
@@ -125,6 +125,6 @@ Vue.component('video_embed-fieldtype', {
                 '<p class="alert alert-warning" role="alert">Video URL is not recognized.</p>' +
             '</div>' +
       '</div>' +
-      '<input type="text" class="form-control" v-model="data.url" @keyup="getData" />' +
+      '<input type="text" class="form-control" v-model="data.url" v-on:change="getData" />' +
     ''
 });
