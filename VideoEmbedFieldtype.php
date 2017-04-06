@@ -23,8 +23,15 @@ class VideoEmbedFieldtype extends Fieldtype
         return [
             'url' => '',
             'title' => '',
-            'author_name' => '',
             'description' => '',
+            'author_name' => '',
+            'author_url' => '',
+            'duration' => '',
+            'height' => 1080,
+            'width' => 1920,
+            'thumbnail_large' => '',
+            'thumbnail_medium' => '',
+            'thumbnail_small' => '',
             'fail' => '',
             'key' => $data['key'] = $this->getConfig('key', '')
         ];
@@ -41,6 +48,17 @@ class VideoEmbedFieldtype extends Fieldtype
         // Pass the YouTube API key to Vue
         $data['key'] = $this->getConfig('key', '');
         $data['fail'] = '';
+        $data['url'] = isset($data['url']) ? $data['url'] : '';
+        $data['title'] = isset($data['title']) ? $data['title'] : '';
+        $data['description'] = isset($data['description']) ? $data['description'] : '';
+        $data['author_name'] = isset($data['author_name']) ? $data['author_name'] : '';
+        $data['author_url'] = isset($data['author_url']) ? $data['author_url'] : '';
+        $data['duration'] = isset($data['duration']) ? $data['duration'] : '';
+        $data['height'] = isset($data['height']) ? $data['height'] : '';
+        $data['width'] = isset($data['width']) ? $data['width'] : '';
+        $data['thumbnail_large'] = isset($data['thumbnail_large']) ? $data['thumbnail_large'] : '';
+        $data['thumbnail_medium'] = isset($data['thumbnail_medium']) ? $data['thumbnail_medium'] : '';
+        $data['thumbnail_small'] = isset($data['thumbnail_small']) ? $data['thumbnail_small'] : '';
         return $data;
     }
 
@@ -69,7 +87,7 @@ class VideoEmbedFieldtype extends Fieldtype
             if ($contents = curl_exec($request)) {
                 $contents = json_decode($contents, true);
                 $data['author_url'] = $contents['author_url'];
-                $data['height'] = $contents['height'] ? $contents['height'] : 1920;
+                $data['height'] = $contents['height'] ? $contents['height'] : 1080;
                 $data['width'] = $contents['width'] ? $contents['width'] : 1920;
             }
         }

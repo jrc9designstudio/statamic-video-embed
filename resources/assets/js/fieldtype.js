@@ -129,17 +129,20 @@ Vue.component('video_embed-fieldtype', {
     },
 
     ready: function() {
+        this.data = this.data ? this.data : {};
         this.data.url = this.data.url ? this.data.url : '';
-        this.data.title = this.data ? this.data.title : '';
-        this.data.description = this.data ? this.data.description : '';
-        this.data.author_name = this.data ? this.data.author_name : '';
-        this.data.author_url = this.data ? this.data.author_url : '';
-        this.data.duration = this.data ? this.data.duration : '';
-        this.data.height = this.data ? this.data.height : '';
-        this.data.width = this.data ? this.data.width : '';
-        this.data.thumbnail_large = this.data ? this.data.thumbnail_large : '';
-        this.data.thumbnail_medium = this.data ? this.data.thumbnail_medium : '';
-        this.data.thumbnail_small = this.data ? this.data.thumbnail_small : '';
+        this.data.title = this.data.title ? this.data.title : '';
+        this.data.description = this.data.description ? this.data.description : '';
+        this.data.author_name = this.data.author_name ? this.data.author_name : '';
+        this.data.author_url = this.data.author_url ? this.data.author_url : '';
+        this.data.duration = this.data.duration ? this.data.duration : '';
+        this.data.height = this.data.height ? this.data.height : 1080;
+        this.data.width = this.data.width ? this.data.width : 1920;
+        this.data.thumbnail_large = this.data.thumbnail_large ? this.data.thumbnail_large : '';
+        this.data.thumbnail_medium = this.data.thumbnail_medium ? this.data.thumbnail_medium : '';
+        this.data.thumbnail_small = this.data.thumbnail_small ? this.data.thumbnail_small : '';
+        
+        this.getData();
     },
     
     template: '' +
