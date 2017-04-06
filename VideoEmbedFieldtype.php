@@ -25,6 +25,7 @@ class VideoEmbedFieldtype extends Fieldtype
             'title' => '',
             'author_name' => '',
             'description' => '',
+            'fail' => '',
             'key' => $data['key'] = $this->getConfig('key', '')
         ];
     }
@@ -39,6 +40,7 @@ class VideoEmbedFieldtype extends Fieldtype
     {
         // Pass the YouTube API key to Vue
         $data['key'] = $this->getConfig('key', '');
+        $data['fail'] = '';
         return $data;
     }
 
@@ -52,6 +54,9 @@ class VideoEmbedFieldtype extends Fieldtype
     {
         // Important! Unset the YouTube API key so it is not saved with the content
         unset($data['key']);
+        
+        // Do not save error messages
+        unset($data['fail']);
 
         // The YouTube API leaves out some crutal info so we have to get it with oembed
         if ($this->videoembed->isYouTube($data['url'])) {
@@ -64,8 +69,8 @@ class VideoEmbedFieldtype extends Fieldtype
             if ($contents = curl_exec($request)) {
                 $contents = json_decode($contents, true);
                 $data['author_url'] = $contents['author_url'];
-                $data['height'] = $contents['height'];
-                $data['width'] = $contents['width'];
+                $data['height'] = $contents['height'] ? $contents['height'] : 1920;
+                $data['width'] = $contents['width'] ? $contents['width'] : 1920;
             }
         }
 
