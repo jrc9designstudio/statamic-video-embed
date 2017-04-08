@@ -34,22 +34,33 @@ Vue.component('video_embed-fieldtype', {
             // Check if the url has changed
             return this.data.url !== this.previous_url;
         },
+        getVimeoID: function() {
+            // get the id of a Vimeo video
+            // Vimeo is pretty simple, it should be the last segment for the id
+            return this.data.url.split('/').pop();
+        },
+        getYouTubeID: function() {
+            // Get the id of a YouTube video
+            if(this.isYouTubeParam) {
+                // YouTube, get the param, also there could be more params such as `playlist` so ditch those.
+                return this.data.url.split('v=').pop().split('&')[0];
+            }
+            // Otherwise just get the last segment, that should be the id.
+            return this.data.url.split('/').pop();
+        },
         src: function() {
             // Construct the video embed src for the preview
             if (this.isVimeo) {
-                // Vimeo is pretty simple, it should be the last segment for the id
-                return 'https://player.vimeo.com/video/' + this.data.url.split('/').pop();
-            } else if (this.isYouTube) {
-                if(this.isYouTubeParam) {
-                    // YouTube, get the param, also there could be more params such as `playlist` so ditch those.
-                    return 'https://www.youtube.com/embed/' + this.data.url.split('v=').pop().split('&')[0];
-                } else {
-                    // Otherwise just get the last segment, that should be the id.
-                    return 'https://www.youtube.com/embed/' + this.data.url.split('/').pop();
-                }
+                return 'https://player.vimeo.com/video/' + this.getVimeoID;
             }
-            
-            return false;
+            return 'https://www.youtube.com/embed/' + this.getYouTubeID;
+        },
+        video_link: function() {
+            // Construct the video link
+            if (this.isVimeo) {
+                return 'https://vimeo.com/' + this.getVimeoID;
+            }
+            return 'https://www.youtube.com/watch?v=' + this.getYouTubeID;
         },
         title: function() {
             // Return the current title for vue preview.
@@ -71,8 +82,6 @@ Vue.component('video_embed-fieldtype', {
 
     methods: {
         getData: function () {
-            var that = this;
-
             // We are now loading ...
             this.loading = this.urlChanged ? true : false;
 
@@ -84,8 +93,10 @@ Vue.component('video_embed-fieldtype', {
             });
             
             if (this.isVimeo && this.urlChanged) {
+                var that = this;
+
                 $.ajax({
-                    url: 'http://vimeo.com/api/v2/video/' + this.data.url.split('/').pop() + '.json'
+                    url: 'http://vimeo.com/api/v2/video/' + this.getVimeoID + '.json'
                 }).done(function(data) {
                     that.fail = false;
                     that.data.title = data[0].title;
@@ -106,16 +117,11 @@ Vue.component('video_embed-fieldtype', {
                     that.previous_url = that.data.url;
                 });
             } else if (this.isYouTube && this.urlChanged) {
+                var that = this;
                 var video_id = '';
                 
-                if(this.isYouTubeParam) {
-                    video_id = this.data.url.split('v=').pop().split('&')[0];
-                } else {
-                    video_id = this.data.url.split('/').pop();
-                }
-                
                 $.ajax({
-                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + video_id + '&key=' + this.data.key
+                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + this.getYouTubeID + '&key=' + this.data.key
                 }).done(function(data) {
                     if (! data.items[0]) {
                         that.fail = 'YouTube data lookup returned no data on this video! Please make sure this video exists.';
@@ -135,10 +141,14 @@ Vue.component('video_embed-fieldtype', {
                     that.loading = false;
                     that.previous_url = that.data.url;
                 });
+            } else if (this.urlChanged) {
+                this.fail = false;
+                this.loading = false;
+                this.previous_url = this.data.url;
+                this.resetData();
             } else {
-                that.fail = false;
-                that.loading = false;
-                that.resetData();
+                this.fail = false;
+                this.loading = false;
             }
         },
         resetData: function() {
@@ -188,7 +198,7 @@ Vue.component('video_embed-fieldtype', {
                         '</div>' +
                     '</div>' +
                     '<div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">' +
-                        '<h2 class="media-heading">{{ title }}</h2>' +
+                        '<h2 class="media-heading"><a href="{{ video_link }}" target="_blank">{{ title }}</a></h2>' +
                         '<h3 v-if="author_url"><a href="{{ author_url }}" target="_blank">{{ author_name }}</a></h3>' +
                         '<h3 v-else>{{ author_name }}</h3>' +
                         '<p>{{ description }}</p>' +
