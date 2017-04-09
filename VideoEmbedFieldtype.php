@@ -81,7 +81,7 @@ class VideoEmbedFieldtype extends Fieldtype
              empty($data['thumbnail_medium']) ||
              empty($data['thumbnail_small'])))
         {
-            // @todo
+            // @todo do lookups with PHP when data empty
         }
 
         // The YouTube API leaves out some crutal info so we have to get it with oembed

@@ -17,6 +17,6 @@ class VideoEmbedListener extends Listener
 
     public function addToHead()
     {
-        return $this->js->tag('videoembed.js') . $this->css->tag('videoembed.css');
+        return $this->css->tag('videoembed.css');
     }
 }

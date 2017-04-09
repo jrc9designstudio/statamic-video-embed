@@ -88,16 +88,19 @@ Vue.component('video_embed-fieldtype', {
 
             $.ajaxSetup({
               cache: false,
+              contentType: 'application/json; charset=utf-8',
               crossDomain: true,
+              dataType : 'json',
               global: false,
-              timeout: 10000
+              timeout: 10000,
+              type: 'GET'
             });
 
             if (this.isVimeo && this.urlChanged) {
                 var that = this;
 
                 $.ajax({
-                    url: 'http://vimeo.com/api/v2/video/' + this.getVimeoID + '.json'
+                    url: 'https://vimeo.com/api/v2/video/' + this.getVimeoID + '.json'
                 }).done(function(data) {
                     that.fail = false;
                     that.data.title = data[0].title;
@@ -152,7 +155,6 @@ Vue.component('video_embed-fieldtype', {
                 this.previous_url = this.data.url;
                 this.resetData();
             } else {
-                this.fail = false;
                 this.loading = false;
                 this.previous_url = this.data.url;
             }

@@ -120,7 +120,7 @@ If you really want a simple tag that does it all for you, you can create your ow
   - `portrait_cinema` 9:21
 
 ### Version Log
-- 2.1.0 Improved data handling for missing data.
+- 2.1.0 Improved data handling for missing data, translations for js and loading states.
 - 2.0.5 Self healing for corrupt or missing data.
 - 2.0.4 Better error messages for failed lookups & clearing old data.
 - 2.0.3 Fix an issue where play list and other params on YouTube urls caused invalid url calculations.
