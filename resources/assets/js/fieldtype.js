@@ -5,18 +5,19 @@ Vue.component('video_embed-fieldtype', {
         return {
             loading: true,
             fail: false,
-            previous_url: ''
+            previous_url: '',
+            youTubeKeySet: this.data.key.length > 0
         }
     },
 
     computed: {
         isVimeo: function() {
             // Is it possible this is a Vimeo url
-            return this.data.url.search('vimeo') !== -1;
+            return (this.data.url.search('vimeo') !== -1) && this.getVimeoID.length > 0;
         },
         isYouTube: function() {
             // Is it possible this is a YouTube url
-            return (this.data.url.search('youtube') || this.data.url.search('youtu.be')) !== -1;
+            return ((this.data.url.search('youtube') || this.data.url.search('youtu.be')) !== -1) && this.getYouTubeID.length > 0;
         },
         isYouTubeParam: function () {
             // Is the id a param (only YouTube does this)
@@ -91,7 +92,7 @@ Vue.component('video_embed-fieldtype', {
               global: false,
               timeout: 10000
             });
-            
+
             if (this.isVimeo && this.urlChanged) {
                 var that = this;
 
@@ -116,9 +117,8 @@ Vue.component('video_embed-fieldtype', {
                     that.loading = false;
                     that.previous_url = that.data.url;
                 });
-            } else if (this.isYouTube && this.urlChanged) {
+            } else if (this.isYouTube && this.urlChanged && this.youTubeKeySet) {
                 var that = this;
-                var video_id = '';
                 
                 $.ajax({
                     url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + this.getYouTubeID + '&key=' + this.data.key
@@ -135,20 +135,26 @@ Vue.component('video_embed-fieldtype', {
                     that.data.thumbnail_medium = data.items[0] ? data.items[0].snippet.thumbnails.medium.url : '';
                     that.data.thumbnail_small = data.items[0] ? data.items[0].snippet.thumbnails.default.url : '';
                 }).fail(function() {
-                    that.fail = 'YouTube data lookup failed. Make Sure this video exists and that you supplied an API key in settings!';
+                    that.fail = 'YouTube data lookup failed. Make Sure this video exists, your supplied an API key in correct and authorized for this domain!';
                     that.resetData();
                 }).always(function() {
                     that.loading = false;
                     that.previous_url = that.data.url;
                 });
+            } else if (this.isYouTube && !this.youTubeKeySet) {
+                this.fail = 'You need a YouTube API key to pull data from the YouTube API. Please set one up and configure it in Settings.';
+                this.loading = false;
+                this.previous_url = this.data.url;
+                this.resetData();
             } else if (this.urlChanged) {
-                this.fail = false;
+                this.fail = 'Unknown error. Please check the video url and your settings.';
                 this.loading = false;
                 this.previous_url = this.data.url;
                 this.resetData();
             } else {
                 this.fail = false;
                 this.loading = false;
+                this.previous_url = this.data.url;
             }
         },
         resetData: function() {
@@ -166,19 +172,7 @@ Vue.component('video_embed-fieldtype', {
     },
 
     ready: function() {
-        this.data = this.data ? this.data : {};
-        this.data.url = this.data.url ? this.data.url : '';
-        this.data.title = this.data.title ? this.data.title : '';
-        this.data.description = this.data.description ? this.data.description : '';
-        this.data.author_name = this.data.author_name ? this.data.author_name : '';
-        this.data.author_url = this.data.author_url ? this.data.author_url : '';
-        this.data.duration = this.data.duration ? this.data.duration : '';
-        this.data.height = this.data.height ? this.data.height : 1080;
-        this.data.width = this.data.width ? this.data.width : 1920;
-        this.data.thumbnail_large = this.data.thumbnail_large ? this.data.thumbnail_large : '';
-        this.data.thumbnail_medium = this.data.thumbnail_medium ? this.data.thumbnail_medium : '';
-        this.data.thumbnail_small = this.data.thumbnail_small ? this.data.thumbnail_small : '';
-        
+        console.log(translate);
         this.getData();
     },
     
@@ -188,7 +182,7 @@ Vue.component('video_embed-fieldtype', {
       '</style>' +
       '<div v-if="isntBlank" class="video-embed-preview-wrapper form-group">' +
             '<div v-if="loading" class="loading">' +
-                '<span class="icon icon-circular-graph animation-spin"></span> Loading' +
+                '<span class="icon icon-circular-graph animation-spin"></span> {{ translate("cp.loading") }}' +
             '</div>' +
             '<div class="video-embed-preview" v-else>' +
                 '<div v-if="isValid" class="row">' +
