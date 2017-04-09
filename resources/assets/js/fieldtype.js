@@ -111,7 +111,7 @@ Vue.component('video_embed-fieldtype', {
                     that.data.thumbnail_medium = data[0].thumbnail_medium;
                     that.data.thumbnail_small = data[0].thumbnail_small;
                 }).fail(function() {
-                    that.fail = 'Vimeo data lookup failed. Please make Sure this video exists!';
+                    that.fail = translate('addons.VideoEmbed::settings.vimeo_lookup_fail');
                     that.resetData();
                 }).always(function() {
                     that.loading = false;
@@ -124,7 +124,7 @@ Vue.component('video_embed-fieldtype', {
                     url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + this.getYouTubeID + '&key=' + this.data.key
                 }).done(function(data) {
                     if (! data.items[0]) {
-                        that.fail = 'YouTube data lookup returned no data on this video! Please make sure this video exists.';
+                        that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_no_data');
                     } else {
                         that.fail = false;
                     }
@@ -135,19 +135,19 @@ Vue.component('video_embed-fieldtype', {
                     that.data.thumbnail_medium = data.items[0] ? data.items[0].snippet.thumbnails.medium.url : '';
                     that.data.thumbnail_small = data.items[0] ? data.items[0].snippet.thumbnails.default.url : '';
                 }).fail(function() {
-                    that.fail = 'YouTube data lookup failed. Make Sure this video exists, your supplied an API key in correct and authorized for this domain!';
+                    that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_fail');
                     that.resetData();
                 }).always(function() {
                     that.loading = false;
                     that.previous_url = that.data.url;
                 });
             } else if (this.isYouTube && !this.youTubeKeySet) {
-                this.fail = 'You need a YouTube API key to pull data from the YouTube API. Please set one up and configure it in Settings.';
+                this.fail = translate('addons.VideoEmbed::settings.youtube_key_not_set');
                 this.loading = false;
                 this.previous_url = this.data.url;
                 this.resetData();
             } else if (this.urlChanged) {
-                this.fail = 'Unknown error. Please check the video url and your settings.';
+                this.fail = translate('addons.VideoEmbed::settings.unknowen_error');
                 this.loading = false;
                 this.previous_url = this.data.url;
                 this.resetData();
@@ -172,14 +172,11 @@ Vue.component('video_embed-fieldtype', {
     },
 
     ready: function() {
-        console.log(translate);
+        // Update the data as soon as Vue is ready.
         this.getData();
     },
     
     template: '' +
-      '<style>' +
-        'body.sneak-peeking .video-embed-preview-wrapper { display: none; }' +
-      '</style>' +
       '<div v-if="isntBlank" class="video-embed-preview-wrapper form-group">' +
             '<div v-if="loading" class="loading">' +
                 '<span class="icon icon-circular-graph animation-spin"></span> {{ translate("cp.loading") }}' +
@@ -200,7 +197,7 @@ Vue.component('video_embed-fieldtype', {
                     '</div>' +
                 '</div>' +
                 '<div v-else>' +
-                    '<p class="alert alert-warning" role="alert">Video URL is not recognized.</p>' +
+                    '<p class="alert alert-warning" role="alert">{{ translate("addons.VideoEmbed::settings.video_url_unrecognized") }}</p>' +
                 '</div>' +
             '</div>' +
       '</div>' +
