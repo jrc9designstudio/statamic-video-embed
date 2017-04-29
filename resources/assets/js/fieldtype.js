@@ -17,7 +17,7 @@ Vue.component('video_embed-fieldtype', {
         },
         isYouTube: function() {
             // Is it possible this is a YouTube url
-            return ((this.data.url.search('youtube') || this.data.url.search('youtu.be')) !== -1) && this.getYouTubeID.length > 0;
+            return (this.data.url.search('youtube') !== -1 || this.data.url.search('youtu.be') !== -1) && this.getYouTubeID.length > 0;
         },
         isYouTubeParam: function () {
             // Is the id a param (only YouTube does this)
