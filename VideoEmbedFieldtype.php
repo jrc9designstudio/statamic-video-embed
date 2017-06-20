@@ -97,7 +97,7 @@ class VideoEmbedFieldtype extends Fieldtype
             if ($contents = curl_exec($request)) {
                 $contents = json_decode($contents, true);
                 $data['author_url'] = $contents['author_url'];
-                unset($data['duration']); // YouTube does not return duration so lets unset it
+                //unset($data['duration']); // YouTube does not return duration so lets unset it
                 $data['height'] = $contents['height'] ? $contents['height'] : 1080;
                 $data['width'] = $contents['width'] ? $contents['width'] : 1920;
             }
