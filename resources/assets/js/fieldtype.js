@@ -88,7 +88,7 @@ Vue.component('video_embed-fieldtype', {
             var minutes = (parseInt(match[2]) || 0);
             var seconds = (parseInt(match[3]) || 0);
             
-            return hours +':'+ minutes +':'+ seconds;
+            return (hours * 3600) + ( minutes* 60) + seconds;
             
         }
     },
