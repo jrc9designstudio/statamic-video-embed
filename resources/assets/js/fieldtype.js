@@ -78,6 +78,18 @@ Vue.component('video_embed-fieldtype', {
         description: function() {
             // Return the current description (striping html) for vue preview.
             return this.data.description.replace(/<\/?[^>]+(>|$)/g, "");
+        },
+        duration: function() {
+            // Return the current duration for vue preview.
+            
+            var match = this.data.duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
+            
+            var hours = (parseInt(match[1]) || 0);
+            var minutes = (parseInt(match[2]) || 0);
+            var seconds = (parseInt(match[3]) || 0);
+            
+            return (hours * 3600) + ( minutes* 60) + seconds;
+            
         }
     },
 
@@ -124,7 +136,7 @@ Vue.component('video_embed-fieldtype', {
                 var that = this;
                 
                 $.ajax({
-                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + this.getYouTubeID + '&key=' + this.data.key
+                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet,contentDetails&id=' + this.getYouTubeID + '&key=' + this.data.key
                 }).done(function(data) {
                     if (! data.items[0]) {
                         that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_no_data');
@@ -137,6 +149,7 @@ Vue.component('video_embed-fieldtype', {
                     that.data.thumbnail_large = data.items[0] ? data.items[0].snippet.thumbnails.high.url : '';
                     that.data.thumbnail_medium = data.items[0] ? data.items[0].snippet.thumbnails.medium.url : '';
                     that.data.thumbnail_small = data.items[0] ? data.items[0].snippet.thumbnails.default.url : '';
+                    that.data.duration = data.items[0] ? data.items[0].contentDetails.duration : '';
                 }).fail(function() {
                     that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_fail');
                     that.resetData();
@@ -170,6 +183,7 @@ Vue.component('video_embed-fieldtype', {
             this.data.thumbnail_large = '';
             this.data.thumbnail_medium = '';
             this.data.thumbnail_small = '';
+            this.data.duration = '';
         }
     },
 
@@ -192,6 +206,7 @@ Vue.component('video_embed-fieldtype', {
                     '</div>' +
                     '<div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">' +
                         '<h2 class="media-heading"><a href="{{ video_link }}" target="_blank">{{ title }}</a></h2>' +
+                        '<h3>Play Time: {{ duration }}</h3>' +
                         '<h3 v-if="author_url"><a href="{{ author_url }}" target="_blank">{{ author_name }}</a></h3>' +
                         '<h3 v-else>{{ author_name }}</h3>' +
                         '<p>{{ description }}</p>' +
