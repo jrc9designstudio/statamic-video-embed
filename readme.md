@@ -1,6 +1,6 @@
 # Video Embed for Statamic 2
-*Requirement:* Statamic v2.x, curl  
-*Version:* 2.1.1
+*Requirement:* Statamic v2.x, curl
+*Version:* 2.2.0
 
 ### What is this?
 Add YouTube and Vimeo videos to Statamic with a Video Embed field.
@@ -10,7 +10,7 @@ Add YouTube and Vimeo videos to Statamic with a Video Embed field.
 ### Installation
 - Rename the folder `VideoEmbed` and copy it to your `site/addons` folder
 - Add a VideoEmbed field to one of your fieldsets
-- Add your [YouTube API](https://developers.google.com/youtube/v3/getting-started) key to the addon settings. 
+- Add your [YouTube API](https://developers.google.com/youtube/v3/getting-started) key to the addon settings.
 
 ### Settings
 - Go go the control panel > Addons > Settings or modify the settings file `site/settings/addons/video_embed.yaml`
@@ -120,6 +120,7 @@ If you really want a simple tag that does it all for you, you can create your ow
   - `portrait_cinema` 9:21
 
 ### Version Log
+- 2.2.0 Added support for duration from YouTube thanks to @JayVerb for your work on this & ajax abort (for slow requests)
 - 2.1.1 Fixes Vue not recognizing youtu.be addresses.
 - 2.1.0 Improved data handling for missing data, translations for js and loading states.
 - 2.0.5 Self healing for corrupt or missing data.

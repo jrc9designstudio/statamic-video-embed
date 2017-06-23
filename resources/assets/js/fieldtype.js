@@ -6,7 +6,8 @@ Vue.component('video_embed-fieldtype', {
             loading: true,
             fail: false,
             previous_url: '',
-            youTubeKeySet: this.data.key.length > 0
+            youTubeKeySet: this.data.key.length > 0,
+            ajax: undefined
         }
     },
 
@@ -75,10 +76,33 @@ Vue.component('video_embed-fieldtype', {
             // Return the current author url for vue preview.
             return this.data.author_url;
         },
+        duration: function () {
+          // Return the duration for the vue preview.
+          if (this.data.duration && this.data.duration > 60) {
+            var sec_num = parseInt(this.data.duration, 10);
+            var hours   = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+            if (hours < 10) {
+              hours   = '0' + hours;
+            }
+            if (minutes < 10) {
+              minutes = '0' + minutes;
+            }
+            if (seconds < 10) {
+              seconds = '0' + seconds;
+            }
+
+            return hours + ':' + minutes + ':' + seconds;
+          }
+
+          return this.data.duration + ' seconds';
+        },
         description: function() {
             // Return the current description (striping html) for vue preview.
             return this.data.description.replace(/<\/?[^>]+(>|$)/g, "");
-        }
+        },
     },
 
     methods: {
@@ -99,7 +123,11 @@ Vue.component('video_embed-fieldtype', {
             if (this.isVimeo && this.urlChanged) {
                 var that = this;
 
-                $.ajax({
+                if (this.ajax) {
+                  this.ajax.abort();
+                }
+
+                this.ajax = $.ajax({
                     url: 'https://vimeo.com/api/v2/video/' + this.getVimeoID + '.json'
                 }).done(function(data) {
                     that.fail = false;
@@ -122,10 +150,15 @@ Vue.component('video_embed-fieldtype', {
                 });
             } else if (this.isYouTube && this.urlChanged && this.youTubeKeySet) {
                 var that = this;
-                
-                $.ajax({
-                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=' + this.getYouTubeID + '&key=' + this.data.key
+
+                if (this.ajax) {
+                  this.ajax.abort();
+                }
+
+                this.ajax = $.ajax({
+                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet,contentDetails&id=' + this.getYouTubeID + '&key=' + this.data.key
                 }).done(function(data) {
+                    console.log(data);
                     if (! data.items[0]) {
                         that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_no_data');
                     } else {
@@ -134,6 +167,7 @@ Vue.component('video_embed-fieldtype', {
                     that.data.title = data.items[0] ? data.items[0].snippet.title : '';
                     that.data.description = data.items[0] ? data.items[0].snippet.description : '';
                     that.data.author_name = data.items[0] ? data.items[0].snippet.channelTitle : '';
+                    that.data.duration = data.items[0] ? that.convertISOTimeToSeconds(data.items[0].contentDetails.duration) : '';
                     that.data.thumbnail_large = data.items[0] ? data.items[0].snippet.thumbnails.high.url : '';
                     that.data.thumbnail_medium = data.items[0] ? data.items[0].snippet.thumbnails.medium.url : '';
                     that.data.thumbnail_small = data.items[0] ? data.items[0].snippet.thumbnails.default.url : '';
@@ -170,14 +204,24 @@ Vue.component('video_embed-fieldtype', {
             this.data.thumbnail_large = '';
             this.data.thumbnail_medium = '';
             this.data.thumbnail_small = '';
-        }
+        },
+        convertISOTimeToSeconds: function(duration) {
+            // Convert ISO 8601 duration time to seconds for consistency.
+            var match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
+
+            var hours = (parseInt(match[1]) || 0);
+            var minutes = (parseInt(match[2]) || 0);
+            var seconds = (parseInt(match[3]) || 0);
+
+            return (hours * 3600) + ( minutes* 60) + seconds;
+        },
     },
 
     ready: function() {
         // Update the data as soon as Vue is ready.
         this.getData();
     },
-    
+
     template: '' +
       '<div v-if="isntBlank" class="video-embed-preview-wrapper form-group">' +
             '<div v-if="loading" class="loading">' +
@@ -194,6 +238,7 @@ Vue.component('video_embed-fieldtype', {
                         '<h2 class="media-heading"><a href="{{ video_link }}" target="_blank">{{ title }}</a></h2>' +
                         '<h3 v-if="author_url"><a href="{{ author_url }}" target="_blank">{{ author_name }}</a></h3>' +
                         '<h3 v-else>{{ author_name }}</h3>' +
+                        '<p><strong>Play Time:</strong> {{ duration }}</p>' +
                         '<p>{{ description }}</p>' +
                         '<p v-if="fail" class="alert alert-warning" role="alert">{{ fail }}</p>' +
                     '</div>' +
