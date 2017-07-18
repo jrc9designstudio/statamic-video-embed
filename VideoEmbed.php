@@ -2,10 +2,12 @@
 
 namespace Statamic\Addons\VideoEmbed;
 
-use Statamic\Extend\Addon;
+use Statamic\Extend\Extensible;
 
-class VideoEmbed extends Addon
+class VideoEmbed
 {
+    use Extensible;
+
     public function isYouTube($value)
     {
         return strpos($value, 'youtube') !== false || strpos($value, 'youtu.be') !== false;
@@ -28,7 +30,7 @@ class VideoEmbed extends Addon
             parse_str(parse_url($value)['query'], $idstr);
             return $idstr['v'];
         }
-        
+
         return substr($value, strrpos($value, '/') + 1);
     }
 
@@ -67,7 +69,7 @@ class VideoEmbed extends Addon
         {
             return 'https://player.vimeo.com/video/' . $this->getVimeoId($value) . '?autoplay=' . $autoplay . '&loop=' . $loop . '&api=' . $api . '&title=' . $showinfo . '&portrait=' . $showinfo . '&byline=' . $showinfo;
         }
-        
+
         return '';
     }
 

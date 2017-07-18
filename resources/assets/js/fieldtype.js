@@ -158,7 +158,6 @@ Vue.component('video_embed-fieldtype', {
                 this.ajax = $.ajax({
                     url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet,contentDetails&id=' + this.getYouTubeID + '&key=' + this.data.key
                 }).done(function(data) {
-                    console.log(data);
                     if (! data.items[0]) {
                         that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_no_data');
                     } else {
