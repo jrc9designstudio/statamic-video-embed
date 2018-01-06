@@ -119,10 +119,6 @@ If you really want a simple tag that does it all for you, you can create your ow
   - `portrait_clasic` 2:3
   - `portrait_cinema` 9:21
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/eNH4J7YAub4Y19PG8yjyuzLu/jrc9designstudio/statamic-video-embed'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/eNH4J7YAub4Y19PG8yjyuzLu/jrc9designstudio/statamic-video-embed.svg' />
-</a>
-
 ### Version Log
 - 2.2.1 Fix for Statamic 2.6
 - 2.2.0 Added support for duration from YouTube thanks to @JayVerb for your work on this & ajax abort (for slow requests)
