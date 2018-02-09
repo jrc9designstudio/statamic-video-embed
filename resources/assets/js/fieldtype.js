@@ -106,6 +106,9 @@ Vue.component('video_embed-fieldtype', {
     },
 
     methods: {
+        getReplicatorPreviewText() {
+            return this.title;
+        },
         getData: function () {
             // We are now loading ...
             this.loading = this.urlChanged ? true : false;
