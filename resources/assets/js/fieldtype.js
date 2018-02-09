@@ -1,5 +1,7 @@
+/* global Vue, $, Fieldtype, translate */
+
 Vue.component('video_embed-fieldtype', {
-    props: ['data', 'config', 'name'],
+    mixins: [Fieldtype],
 
     data: function() {
         return {
@@ -7,7 +9,8 @@ Vue.component('video_embed-fieldtype', {
             fail: false,
             previous_url: '',
             youTubeKeySet: this.data.key.length > 0,
-            ajax: undefined
+            ajax: undefined,
+            autoBindChangeWatcher: false // Disable the automagic binding
         }
     },
 
@@ -106,12 +109,19 @@ Vue.component('video_embed-fieldtype', {
     },
 
     methods: {
-        getReplicatorPreviewText() {
+        getReplicatorPreviewText: function() {
             return this.title;
+        },
+        focus: function() {
+           this.$els.videoUrlField.focus();
         },
         getData: function () {
             // We are now loading ...
             this.loading = this.urlChanged ? true : false;
+
+            if (this.urlChanged) {
+                this.bindChangeWatcher(); // Bind the change watcher
+            }
 
             $.ajaxSetup({
               cache: false,
@@ -250,6 +260,6 @@ Vue.component('video_embed-fieldtype', {
                 '</div>' +
             '</div>' +
       '</div>' +
-      '<input type="text" class="form-control" v-model="data.url" v-on:blur="getData" v-on:keyup="getData" v-on:input="getData" />' +
+      '<input type="text" class="form-control" v-model="data.url" v-on:blur="getData" v-on:keyup="getData" v-on:input="getData" v-el:video-url-field />' +
     ''
 });
