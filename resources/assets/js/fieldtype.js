@@ -106,11 +106,14 @@ Vue.component('video_embed-fieldtype', {
             // Return the current description (striping html) for vue preview.
             return this.data.description.replace(/<\/?[^>]+(>|$)/g, "");
         },
+        previewImage: function() {
+            return this.data.thumbnail_small ? '<img src="' + this.data.thumbnail_small + '" width="auto" height="20" title="' + this.title + '" />' : '';
+        },
     },
 
     methods: {
         getReplicatorPreviewText: function() {
-            return this.title;
+            return this.previewImage + ' ' + this.title;
         },
         focus: function() {
            this.$els.videoUrlField.focus();
