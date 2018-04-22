@@ -5,7 +5,7 @@
 ### What is this?
 Add YouTube and Vimeo videos to Statamic with a Video Embed field.
 
-![An example of the addons CP interface](https://jrc9ds.cachefly.net/jrc9/videos/statamic-addon.gif)
+![An example of the addons CP interface](https://kindwork.nyc3.digitaloceanspaces.com/jrc9/videos/statamic-addon.gif)
 
 ### Installation
 - Rename the folder `VideoEmbed` and copy it to your `site/addons` folder
