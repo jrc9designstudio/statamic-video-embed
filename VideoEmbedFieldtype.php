@@ -7,6 +7,7 @@ use Statamic\Extend\Fieldtype;
 class VideoEmbedFieldtype extends Fieldtype
 {
     private $videoembed;
+    public $category = ['media'];
 
     protected function init()
     {
