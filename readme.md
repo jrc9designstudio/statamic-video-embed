@@ -1,6 +1,6 @@
 # Video Embed for Statamic 2
 *Requirement:* Statamic v2.6.x, curl
-*Version:* 2.2.4
+*Version:* 2.2.6
 
 ### What is this?
 Add YouTube and Vimeo videos to Statamic with a Video Embed field.
@@ -120,6 +120,7 @@ If you really want a simple tag that does it all for you, you can create your ow
   - `portrait_cinema` 9:21
 
 ### Version Log
+- 2.2.6 Fix grid / replicator issue
 - 2.2.4 Add Video Preview Image to Replicator Preview Text
 - 2.2.3 Auto Focus & Change Watcher Fix
 - 2.2.2 Add Replicator Preview Text

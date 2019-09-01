@@ -34,7 +34,7 @@ class VideoEmbedFieldtype extends Fieldtype
             'thumbnail_large' => '',
             'thumbnail_medium' => '',
             'thumbnail_small' => '',
-            'key' => $data['key'] = $this->getConfig('key', '')
+            'youtube_key' => $this->getConfig('key', '')
         ];
     }
 
@@ -48,7 +48,7 @@ class VideoEmbedFieldtype extends Fieldtype
     {
         // Pass the YouTube API key to Vue & set defaults if data is not set
         // - For example if info url was added via editing the yaml file
-        $data['key'] = $this->getConfig('key', '');
+        $data['youtube_key'] = $this->getConfig('key', '');
         $data['url'] = isset($data['url']) ? $data['url'] : '';
         $data['title'] = isset($data['title']) ? $data['title'] : '';
         $data['description'] = isset($data['description']) ? $data['description'] : '';
@@ -104,7 +104,7 @@ class VideoEmbedFieldtype extends Fieldtype
         }
 
         // Important! Unset the YouTube API key so it is not saved with the content
-        unset($data['key']);
+        unset($data['youtube_key']);
 
         // If there is no description unset it (so a blank string is not saved in YAML)
         // This way templates can easily just check if the description exists

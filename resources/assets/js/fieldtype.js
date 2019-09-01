@@ -1,5 +1,37 @@
 /* global Vue, $, Fieldtype, translate */
 
+// Polyfill Object.assign for IE...
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+if (typeof Object.assign !== 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target === null || target === undefined) {
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource !== null && nextSource !== undefined) {
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
+
 Vue.component('video_embed-fieldtype', {
     mixins: [Fieldtype],
 
@@ -8,9 +40,8 @@ Vue.component('video_embed-fieldtype', {
             loading: true,
             fail: false,
             previous_url: '',
-            youTubeKeySet: this.data.key.length > 0,
+            youTubeKeySet: this.data.youtube_key.length > 0,
             ajax: undefined,
-            autoBindChangeWatcher: false // Disable the automagic binding
         }
     },
 
@@ -172,7 +203,7 @@ Vue.component('video_embed-fieldtype', {
                 }
 
                 this.ajax = $.ajax({
-                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet,contentDetails&id=' + this.getYouTubeID + '&key=' + this.data.key
+                    url: 'https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet,contentDetails&id=' + this.getYouTubeID + '&key=' + this.data.youtube_key
                 }).done(function(data) {
                     if (! data.items[0]) {
                         that.fail = translate('addons.VideoEmbed::settings.youtube_lookup_no_data');
@@ -233,6 +264,11 @@ Vue.component('video_embed-fieldtype', {
     },
 
     ready: function() {
+        // Make sure the default props is not mutated, a unique copy should be made
+        // this works around a bug where adding more than one video field in a replicator or grid
+        // before a save causes all url fields to share data / be linked
+        // https://github.com/jrc9designstudio/statamic-video-embed/issues/22
+        this.data = Object.assign({}, this.data);
         // Update the data as soon as Vue is ready.
         this.getData();
     },
